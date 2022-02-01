@@ -1,22 +1,27 @@
-## webpack chuleta
+﻿## webpack chuleta
 Webpack : Se encarga de generar un bundle con toda nuestra aplicación
-#### Pasos a seguir
-###### 1. Generar package.json
-*npm init --y* // Genera un archivo con las opciones por defecto.
-###### 2.Instalar webpack
-*npm install webpack webpack-cli --save-dev*
+####  Pasos a seguir
+#####  1. Generar package.json
+	npm init --y // Genera un archivo con las opciones por defecto.
+##### 2.Instalar webpack
+	npm install webpack webpack-cli --save-dev
 La opción "--save-dev" refleja la dev-dependency en el package.json
 # 
-
 ***Para enlazar los archivos entre si, primero hay que exportarlos como
 modulo y despues importarlo en el fichero padre o el que lo vaya a usar.***
-***Ejemplo: 
-En "hello-world.js" export default helloWorld
-En "index.js" import helloWorld from "./hello-world.js"***
+***Ejemplo:*** 
+
+En "hello-world.js" 
+
+	export default helloWorld
+
+En "index.js"
+		
+	import helloWorld from "./hello-world.js"
 # 
 #### Commandos webpack
->*npx webpack*  // Ejecuta webpack por defecto (Si no hay configuración)
->*npx webpack --stats detailer* // Saca por consola detalles de la compilación
+	npx webpack  // Ejecuta webpack por defecto (Si no hay configuración)
+	npx webpack --stats detailer // Saca por consola detalles de la compilación
 #
 #### Webpack Configuration
 webpack.config.js es un módulo js que contiene las propiedades a
@@ -90,16 +95,21 @@ Misma estructura que asset solo que en vez del type ponemos "use" (array de depe
 #### Listado de loaders:
 
   **sass-loader** : Convierte el sass a css
-*npm install sass-loader sass --save-dev*
+
+	npm install sass-loader sass --save-dev
 
 **css-loader** : Convierte el css en una representación de JavaScript
-*npm install css-loader --save-dev*
+
+	npm install css-loader --save-dev
 
   **style-loader**: Incluye los css detectados en el bundle.js
-*npm install style-loader --save-dev*
+  
+	npm install style-loader --save-dev
 
 **babel-loader**: Para que nuestro js se pueda leer en todos los navegadores sin importar la V ecmascript.
-*npm install @babel/core babel-loader @babel/preset-env @babel/plugin-proposal-class-properties --save-dev*
+
+	npm install @babel/core babel-loader @babel/preset-env --save-dev
+	npm install @babel/plugin-proposal-class-properties --save-dev
 
   **Ejemplo babel :**
 
@@ -131,8 +141,9 @@ Deben estar en el array plugins dentro del modulo de webpack plugins: [...new pl
 **1**. *new TerserPlugin()* // Minifica la compilación del bundle
 
 	const TerserPlugin = require('terser-webpack-plugin');
-*npm i terser-webpack-plugin --save-dev* (no-need webpack 5)
+npm i terser-webpack-plugin --save-dev // no-need webpack 5
 
 **Este plugin ha superado en cuanto rendimiento a sus competidores : Uglify & babel-minify**
 https://blog.logrocket.com/terser-vs-uglify-vs-babel-minify-comparing-javascript-minifiers/
+
 
