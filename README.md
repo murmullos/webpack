@@ -123,3 +123,25 @@ Webpack : Se encarga de generar un bundle con toda nuestra aplicación
 # ######################################################################################################################
 
 
+# #####################################################################################################################
+# PLUGINS
+# Son librerias JavaScript que le dan funcionalidades nuevas a webpack.
+# Podemos entender extensiones que los loaders no entiende.
+# También modificar el propio bundle en su compilación (Ejemplo : minificar)
+# 
+# IMPORTANTE : La mayoría de plugins son una instancia de una librería por lo que deben importarse con require('name')
+#
+# Deben estar en el array plugins dentro del modulo de webpack  plugins: [...new plugin]
+#
+# Plugins usados : 
+#         1.  new TerserPlugin() : Minifica la compilación del bundle
+#               const TerserPlugin = require('terser-webpack-plugin')
+#               npm i terser-webpack-plugin --save-dev (no-need webpack 5)
+#               Este plugin ha superado en cuanto rendimiento a sus competidores : Uglify & babel-minify
+#               https://blog.logrocket.com/terser-vs-uglify-vs-babel-minify-comparing-javascript-minifiers/
+# 
+#
+#
+#
+#
+#

@@ -1,5 +1,8 @@
 const path = require('path');
 
+// PLUGINS
+const TerserPlugin = require('terser-webpack-plugin');
+
 module.exports = {
     entry : './src/index.js',                            // Archivo de entrada para iniciar la compilación
     output: {                                            // Configuración bundle de salida
@@ -63,5 +66,8 @@ module.exports = {
                 }
             }
         ]
-    }
+    },
+    plugins: [
+        new TerserPlugin()                 // Minificado
+    ]
 }
