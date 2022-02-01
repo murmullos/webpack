@@ -9,9 +9,10 @@ module.exports = {
     },
     mode: 'none',                                        // Modo de compilación "develop" || "production"
 
-    // ASSETS
     module: {
         rules: [
+            //////////////////////////////
+            // ASSETS
             {
                 test: /\.(jpg)$/,
                 type: 'asset/resource'
@@ -32,6 +33,34 @@ module.exports = {
             {
                 test: /\.(txt)$/,
                 type: 'asset/source'
+            },
+
+            /////////////////////////////////
+            // LOADERS
+
+            // Obviamente este loader es redundante si tenemos el de sass
+            /*{
+                test: /\.(css)$/,
+                use: [
+                    'style-loader', 'css-loader'
+                ]
+            },*/
+            {
+                test: /\.(scss)$/,
+                use: [
+                    'style-loader', 'css-loader', 'sass-loader'
+                ]
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/env'],
+                        plugins: [ '@babel/plugin-proposal-class-properties']
+                    }
+                }
             }
         ]
     }

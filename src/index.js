@@ -1,9 +1,10 @@
-import helloWorld from './hello-world.js';
+import HelloWorldButton from "./components/hello-world-button/hello-world-button.js";
 import addImage from './add-image.js';
 import addSvg from './add-svg';
 import addPng from './add-png.js';
 
-helloWorld();
+const helloWordButton = new HelloWorldButton;
+helloWordButton.render();
 addImage();
 addSvg();
 addPng();

@@ -1,0 +1,16 @@
+$colorButton: aqua;
+$colorTextButton: green;
+$fontSizeButton: 20px;
+$fontWeightText: bold;
+
+.hello-world-button {
+    background-color : $colorButton;
+    font-size: $fontSizeButton;
+    color : $colorTextButton;
+    outline: none;
+}
+
+.hello-world-text {
+    color: blue;
+    font-weight: $fontWeightText;
+}

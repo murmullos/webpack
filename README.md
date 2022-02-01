@@ -4,9 +4,9 @@ webpack-pruebas
 Webpack : Se encarga de generar un bundle con toda nuestra aplicación
 
 # ###########################################################################
-# Generar package.json                                                      #                               
+# Generar package.json                                                                                     
 # npm init --yes # This will trigger automatically populated initialization.
-# --yes o -y Genera un archivo con las opciones por defecto. 
+# --yes o -y  # Genera un archivo con las opciones por defecto. 
 
 # Instalar webpack
 # npm install webpack webpack-cli --save-dev
@@ -30,8 +30,9 @@ Webpack : Se encarga de generar un bundle con toda nuestra aplicación
 # Webpack Configuration
 # webpack.config.js es un módulo js que contiene las propiedades a 
 # configurar dentro de webpack
-#
-#
+# #######################################################################
+
+# ########################################################################
 # Assets : Utilizamos los assets para incluir otros archivos al bundle principal
 # Se deben generar una serie de reglas para que webpack entienda los archivos que 
 # puede/debe incluir 
@@ -71,10 +72,54 @@ Webpack : Se encarga de generar un bundle con toda nuestra aplicación
 #  Hay que buscar el equilibrio entre estas dos opciones o usar "asset"
 # #########################################################################################
 
-# ################################################################################
+
+# #########################################################################################
 # LOADERS : Librerias js que nos permiten incluir diferentes tipos de archivos dentro del bundle
-# Los assets no dejan de ser loaders default de webpack
-# 
-# 
+# Los assets no dejan de ser loaders que vienen por defecto en webpack
+#
+# Para los demás loaders hay que instalar las dependencias vía npm
+# Misma estructura que asset solo que en vez del type ponemos "use" (array de dependencias)
+#
+# Ejemplo : 
+#        module: {
+#            rules: [
+#                {
+#                    test: /\.(css)$/,    // Formato al que le afecta
+#                    use: [               
+#                        'style-loader', 'css-loader'   // La carga se hace de derecha a izquierda    
+#                    ]
+#                }
+#            ]
+#        }
+#
+#   Listado de loaders:
+#
+#         sass-loader : Convierte el sass a css
+#                    - npm install sass-loader sass --save-dev
+#
+#         css-loader : Convierte el css en una representación de JavaScript
+#                    - npm install css-loader --save-dev
+#
+#         style-loader: Incluye los css detectados en el bundle.js
+#                    - npm install style-loader --save-dev
+#         
+#         babel-loader: Para que nuestro js se pueda leer en todos los navegadores sin importar la V ecmascript.
+#         - npm install @babel/core babel-loader @babel/preset-env @babel/plugin-proposal-class-properties --save-dev
+#                    
+#
+#    Ejemplo babel :
+#            {
+#                test: /\.js$/,
+#                exclude: /node_modules/,   // Exclusión de carpetas
+#                use: {
+#                    loader: 'babel-loader', 
+#                    options: {
+#                        presets: ['@babel/env'],  // Convierte de cualquier ecmascript al 5 
+#                        plugins: ['@babel/plugin-proposal-class-properties'] // Permite propiedades dentro de la class
+#                    }
+#                }
+#             }        
+#
+# ######################################################################################################################
 
 

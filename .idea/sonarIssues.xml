@@ -53,6 +53,26 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/components/hello-world-button/hello-world-button.css">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/components/hello-world-button/hello-world-button.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/components/hello-world-button/hello-world-button.scss">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/components/hello-world-button/hello-world.js">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/hello-world.js">
           <value>
             <set />
