@@ -1,4 +1,6 @@
-## webpack chuleta
+# webpack
+webpack-pruebas
+
 Webpack : Se encarga de generar un bundle con toda nuestra aplicación
 ####  Pasos a seguir
 #####  1. Generar package.json
@@ -9,14 +11,14 @@ La opción "--save-dev" refleja la dev-dependency en el package.json
 # 
 ***Para enlazar los archivos entre si, primero hay que exportarlos como
 modulo y despues importarlo en el fichero padre o el que lo vaya a usar.***
-***Ejemplo:***
+***Ejemplo:*** 
 
-En "hello-world.js"
+En "hello-world.js" 
 
 	export default helloWorld
 
 En "index.js"
-
+		
 	import helloWorld from "./hello-world.js"
 # 
 #### Commandos webpack
@@ -27,12 +29,12 @@ En "index.js"
 webpack.config.js es un módulo js que contiene las propiedades a
 configurar dentro de webpack
 # 
-
+  
 ## Nociones a destacar
 ### Assets :
 Utilizamos los assets para incluir otros archivos al bundle principal.    
 Se deben generar una serie de reglas para que webpack entienda los archivos que
-puede/debe incluir
+puede/debe incluir  
 
 #### Estructura asset :
 
@@ -45,7 +47,7 @@ puede/debe incluir
 		]
 	}
 
-### Tipos de assets :
+  ### Tipos de assets :
 **asset/resource** : Incluye el archivo independiente en el bundle como hash MD4.
 
 **asset/inline** : Incluye el archivo compilado en base64 dentro del bundle.js.
@@ -77,7 +79,7 @@ Hay que buscar el equilibrio entre estas dos opciones o usar "asset"***
 Librerias js que nos permiten incluir diferentes tipos de archivos dentro del bundle.  
 Los assets no dejan de ser loaders que vienen por defecto en webpack.  
 Para los demás loaders hay que instalar las dependencias vía npm.  
-Misma estructura que asset solo que en vez del type ponemos "use" (array de dependencias).
+Misma estructura que asset solo que en vez del type ponemos "use" (array de dependencias).  
 
 **Ejemplo :**
 
@@ -94,7 +96,7 @@ Misma estructura que asset solo que en vez del type ponemos "use" (array de depe
 #
 #### Listado de loaders:
 
-**sass-loader** : Convierte el sass a css
+  **sass-loader** : Convierte el sass a css
 
 	npm install sass-loader sass --save-dev
 
@@ -102,8 +104,8 @@ Misma estructura que asset solo que en vez del type ponemos "use" (array de depe
 
 	npm install css-loader --save-dev
 
-**style-loader**: Incluye los css detectados en el bundle.js
-
+  **style-loader**: Incluye los css detectados en el bundle.js
+  
 	npm install style-loader --save-dev
 
 **babel-loader**: Para que nuestro js se pueda leer en todos los navegadores sin importar la V ecmascript.
@@ -111,7 +113,7 @@ Misma estructura que asset solo que en vez del type ponemos "use" (array de depe
 	npm install @babel/core babel-loader @babel/preset-env --save-dev
 	npm install @babel/plugin-proposal-class-properties --save-dev
 
-**Ejemplo babel :**
+  **Ejemplo babel :**
 
 	{
 	test: /\.js$/,
@@ -125,12 +127,12 @@ Misma estructura que asset solo que en vez del type ponemos "use" (array de depe
 		}
 	}
 # 
-
-### PLUGINS
+  
+  ### PLUGINS
 
 Son librerias JavaScript que le dan funcionalidades nuevas a webpack.  
 Podemos entender  extensiones que los loaders no entiende.  
-También modificar el propio bundle en su compilación (Ejemplo : minificar)
+También modificar el propio bundle en su compilación (Ejemplo : minificar)  
 
 ***IMPORTANTE : La mayoría de plugins son una instancia de una librería por lo que deben importarse con require('name')***
 
@@ -150,7 +152,7 @@ Deben estar en el array plugins dentro del modulo de webpack plugins: [...new pl
 **Este plugin ha superado en cuanto rendimiento a sus competidores : Uglify & babel-minify**
 https://blog.logrocket.com/terser-vs-uglify-vs-babel-minify-comparing-javascript-minifiers/
 
-**2. MiniCssExtractPlugin**  // Extrae el css a un fichero fuera del bundle
+**2. MiniCssExtractPlugin**  // Extrae el css a un fichero fuera del bundle 
 
 	const MiniCssExtractPlugin = require('mini-css-extract-plugin') // Import
 	
@@ -177,17 +179,17 @@ https://blog.logrocket.com/terser-vs-uglify-vs-babel-minify-comparing-javascript
 
 **3. Browser Cache**  
 Los navegadores poseen una cache donde alojan el contenido de la web que no ha cambiado.  
-Podemos controlar esto añadiendo [contenthash] al nombre de los ficheros bundle de salida.
+Podemos controlar esto añadiendo [contenthash] al nombre de los ficheros bundle de salida.  
 
 ¿Qué conseguimos con esto?  
 Cada vez hagamos un cambio en el código. El bundle vendrá con un [contenthash] nuevo.   
-Esto le permite al navegador saber qué ficheros han cambiado y tener que pedir solo la carga de estos.
+Esto le permite al navegador saber qué ficheros han cambiado y tener que pedir solo la carga de estos.  
 
-Lo que conseguimos es que la web no tenga tiempos de carga muy elevados y solo se ciña a los cambios.
+Lo que conseguimos es que la web no tenga tiempos de carga muy elevados y solo se ciña a los cambios.  
 
-***Esto no es un plugin como tal. Se incluye en los filename del bundle. Tanto en el js como en los css***
+***Esto no es un plugin como tal. Se incluye en los filename del bundle. Tanto en el js como en los css*** 
 
-Sustituimos esto :
+Sustituimos esto : 
 
 	filename: 'bundle.js',
 Por esto
@@ -195,10 +197,10 @@ Por esto
 	filename: 'bundle.[contenthash].js
 	// Salida
 	bundle.bcc372466248a0cf8b5c.js
-
+	
 **4. CleanWebpackPlugin**   
 Elimina el contendio de la carpeta indicada en el "output.path" y todas aquellas que se le indiquen.  
-Plugin básico :
+Plugin básico : 
 
 	const { CleanWebpackPlugin } = require('clean-webpack-plugin') // Import
 	
@@ -208,7 +210,7 @@ Plugin básico :
 	npm i clean-webpack-plugin --save-dev
 
 Plugin para otras carpetas :
-
+	
 	new CleanWebpackPlugin({  
 	    cleanOnceBeforeBuildPatterns: [  
 	        '**/*', // Borra la carpeta output.path (default) 
@@ -218,8 +220,8 @@ Plugin para otras carpetas :
 
 **5. HtmlWebpackPlugin**  
 Genera dinámicamente un html dentro del bundle
-Forma básica :
-
+Forma básica : 
+	
 	const HtmlWebpackPlugin = require('html-webpack-plugin'); // Import
 	
 	new HtmlWebpackPlugin()  // Plugin
@@ -234,7 +236,7 @@ Forma customizada :
 Este plugin acepta diferentes propiedades para personalizar el html generado.  
 Podemos ver en la documentación las propiedades aceptadas :  
 https://www.npmjs.com/package/html-webpack-plugin
-Ejemplo :
+Ejemplo : 
 
 	plugins: [
 		new HtmlWebpackPlugin({
@@ -247,46 +249,46 @@ Ejemplo :
 	  ]
 
 - **Plantillas html**   
-  Podemos crear un template personalizado y utilizarlo para crear dinámicamente el html.  
-  En este caso vamos a usar Handlebars.  
-  Pasos :
-	1. Creamos un archivo "index.hbs" que contendrá la plantilla html que queremos
+	Podemos crear un template personalizado y utilizarlo para crear dinámicamente el html.  
+	En este caso vamos a usar Handlebars.  
+	Pasos :   
+	1. Creamos un archivo "index.hbs" que contendrá la plantilla html que queremos  
 	2. Incluimos en el HtmlWebpackPlugin las variables que vamos a utilizar y la propiedad   template que hará referencia al archivo plantilla.  
-	   Ejemplo :
-
-	   	new HtmlWebpackPlugin({       // Genera html dinámico  
-	   		  title : 'Pruebas Webpack',  
-	   		  filename: 'admin.html',  
-	   		  template: './src/index.hbs',  
-	   		  description: 'Descripción de la web',  
-	   		  tipoValor: 'Control de valores'  
-	   	}),
+		Ejemplo :   
+		
+			new HtmlWebpackPlugin({       // Genera html dinámico  
+				  title : 'Pruebas Webpack',  
+				  filename: 'admin.html',  
+				  template: './src/index.hbs',  
+				  description: 'Descripción de la web',  
+				  tipoValor: 'Control de valores'  
+			}),
 	3. Referenciamos las variables nuevas dentro de la plantilla usando "htmlWebpackPlugin.options.propiedad"  
-	   Ejemplo :
+		Ejemplo :   
+		
+			<!DOCTYPE html>  
+			<html>  
+				<head>  
+					 <meta charset="utf-8">  
+					 <title>{{htmlWebpackPlugin.options.title}}</title>  
+					 <meta name="description" content="{{htmlWebpackPlugin.options.description}}">  
+					 <meta name="viewport" content="{{htmlWebpackPlugin.options.viewPort}}">
+				 <head>  
+				<body>  
+				</body>  
+			</html>
 
-	   	<!DOCTYPE html>  
-	   	<html>  
-	   		<head>  
-	   			 <meta charset="utf-8">  
-	   			 <title>{{htmlWebpackPlugin.options.title}}</title>  
-	   			 <meta name="description" content="{{htmlWebpackPlugin.options.description}}">  
-	   			 <meta name="viewport" content="{{htmlWebpackPlugin.options.viewPort}}">
-	   		 <head>  
-	   		<body>  
-	   		</body>  
-	   	</html>
+	4. Incluimos el loader de handlebars para que webpack interprete el formato  
 
-	4. Incluimos el loader de handlebars para que webpack interprete el formato
-
-	   	{  
-	       test: /\.(hbs)$/,  
-	       use: [  
-	           'handlebars-loader'  
-	   	  ]  
-	   	}
-	   	
-	   	//NPM
-	   	npm i handlebars-loader --save-dev 
+			{  
+		    test: /\.(hbs)$/,  
+		    use: [  
+		        'handlebars-loader'  
+			  ]  
+			}
+			
+			//NPM
+			npm i handlebars-loader --save-dev 
 Con esto ya generamos un html dinámico con las propiedades que nosotros queramos incluir en el archivo.
 #
 			
