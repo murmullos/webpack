@@ -1,19 +1,28 @@
 const path = require('path');
 
 // PLUGINS
-const TerserPlugin = require('terser-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry : './src/index.js',                            // Archivo de entrada para iniciar la compilación
-    output: {                                            // Configuración bundle de salida
-        filename: 'bundle.[contenthash].js',                           // Nombre del archivo
-        path: path.resolve(__dirname, './dist'),         // Ruta de salida de la compilación (Debe ser absoluta, utilizamos path.resolve())
+    entry : './src/index.js',                           // Archivo de entrada para iniciar la compilación
+    output: {                                           // Configuración bundle de salida
+        filename: 'bundle.js',            // Nombre del archivo
+        path: path.resolve(__dirname, './dist'),        // Ruta de salida de la compilación (Debe ser absoluta, utilizamos path.resolve())
         publicPath: ''                                  // Indicamos ruta dinámica del server/cdn  https://server-name.com/
     },
-    mode: 'none',                                        // Modo de compilación "develop" || "production"
+    mode:'development',                                 // Modo de compilación "develop" || "production"
+
+    devServer: {
+        port: 9000,                                     // Puerto a usar
+        static: {
+            directory:path.resolve(__dirname, './dist'),// Directorio al que apunta el server
+        },
+        devMiddleware: {                                // Indicamos la raiz del proyecto
+            index: 'admin.html',
+            writeToDisk: true                               // default(false) Genera el dist mientras se ejecuta
+        }
+    },
 
     module: {
         rules: [
@@ -54,8 +63,7 @@ module.exports = {
             {
                 test: /\.(scss)$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
-                            // 'style-loader', Comentado para usar MiniCssLoader
+                    'style-loader',
                     'css-loader', 'sass-loader'
                 ]
             },
@@ -79,11 +87,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new TerserPlugin(),           // Minificado
-
-        new MiniCssExtractPlugin({   // Separa el css en archivo a parte
-            filename: 'styles.[contenthash].css'   // Archivo de salida en el bundle
-        }),
         new CleanWebpackPlugin({
             cleanOnceBeforeBuildPatterns: [
                 '**/*'       // Por defecto la carpeta output.path

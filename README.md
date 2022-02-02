@@ -289,5 +289,67 @@ Ejemplo :
 			npm i handlebars-loader --save-dev 
 Con esto ya generamos un html dinámico con las propiedades que nosotros queramos incluir en el archivo.
 #
+
+### Webpack Mode
+Existen tres modos posibles "none", "development", "production"  
+La diferencia reside en si permites a webpack meter opciones de optimización o no.  
+
+**none** : No incluye ningún tipo de optimización
+
+**development**: Incluye algunas optimizaciones y cambia el valor de *process.env.NODE_ENV* a "development"  
+
+**production** : Incluye optimizaciones propias de producción y cambia el valor de *process.env.NODE_ENV* a "production"  
+Dentro de las optimizaciones de este caso se encuentran `FlagDependencyUsagePlugin`, `FlagIncludedChunksPlugin`, y `ModuleConcatenationPlugin` `NoEmitOnErrorsPlugin` `TerserPlugin` por defecto.  
+
+**Formas de cambiar de modo**
+1. Incluyendo en el script de npm la opción " --mode" con el valor escogido. 
+		
+			"scripts" : {
+				"dev": "webpack --mode=development",
+				"build": "webpack --mode=production",
+			}
+
+2. Creando archivos "webpack.[mode].config.js" independientes que invocamos con los scripts en función de lo que necesitemos  
+
+			"scripts" : { 
+				"dev": "webpack --config webpack.development.config.js", 
+				"build": "webpack --config webpack.production.config.js", 
+				}
+	Diferencias en el archivo de configuración a resaltar entre los dos modos:
+	1. Cambiar el "mode" para que cada archivo tenga el correcto.  
+	2. Eliminiar el TerserPlugin (En dev no lo usamos y en prod viene default).  
+	3. No necesitamos el [contenthash] en modo dev. Lo quitamos.  
+	4. No necesitamos separar los archivos css para dev. Volvemos a incluir "style-loader" y quitamos el MiniCssExtractPlugin.
+
+**Server Webpack**
+Para el modo dev podemos levantar un server para la ejecución de nuestra aplicación y configurarlo para que refresque el navegador cada vez que se produce un cambio.  
+Pasos: 
+
+1. Instalar "webpack-server".  
+	
+		npm i webpack-dev-server --save-dev
+2. Incluir la configuración del server en el webpack.development.config.js en el primer nivel.  
+
+		devServer: {  
+			port: 9000, 		// Puerto a usar  
+			static: {  			// Directorio de acceso
+				directory:path.resolve(__dirname, './dist'),
+			},  
+			devMiddleware: {   // Root de acceso                         
+				index: 'admin.html' ,
+				writeToDisk: true  // Forzar crear dist en modo serve 
+			}
+		},
+3. Creamos script npm. La opción 'serve' inicia el servidor.  " --hot" activa el modo escucha.
+
+		"scripts": {
+			"dev:server": "webpack serve --config webpack.development.config.js --hot",  
+		}
+  #
+	
+
+
+	  
+
 			
 
