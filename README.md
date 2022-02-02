@@ -175,15 +175,15 @@ https://blog.logrocket.com/terser-vs-uglify-vs-babel-minify-comparing-javascript
 		]
 
 
-**3. Browser Cache**
-Los navegadores poseen una cache donde alojan el contenido de la web que no ha cambiado.
-Podemos controlar esto añadiendo [contenthash] al nombre de los ficheros bundle de salida.
+**3. Browser Cache**  
+Los navegadores poseen una cache donde alojan el contenido de la web que no ha cambiado.  
+Podemos controlar esto añadiendo [contenthash] al nombre de los ficheros bundle de salida.  
 
-¿Qué conseguimos con esto?
-Cada vez hagamos un cambio en el código. El bundle vendrá con un [contenthash] nuevo. 
-Esto le permite al navegador saber qué ficheros han cambiado y tener que pedir solo la carga de estos
+¿Qué conseguimos con esto?  
+Cada vez hagamos un cambio en el código. El bundle vendrá con un [contenthash] nuevo.   
+Esto le permite al navegador saber qué ficheros han cambiado y tener que pedir solo la carga de estos.  
 
-Lo que conseguimos es que la web no tenga tiempos de carga muy elevados y solo se ciña a los cambios.
+Lo que conseguimos es que la web no tenga tiempos de carga muy elevados y solo se ciña a los cambios.  
 
 ***Esto no es un plugin como tal. Se incluye en los filename del bundle. Tanto en el js como en los css*** 
 
@@ -196,8 +196,8 @@ Por esto
 	// Salida
 	bundle.bcc372466248a0cf8b5c.js
 	
-**4. CleanWebpackPlugin** 
-Elimina el contendio de la carpeta indicada en el "output.path" y todas aquellas que se le indiquen.
+**4. CleanWebpackPlugin**   
+Elimina el contendio de la carpeta indicada en el "output.path" y todas aquellas que se le indiquen.  
 Plugin básico : 
 
 	const { CleanWebpackPlugin } = require('clean-webpack-plugin') // Import
@@ -216,7 +216,7 @@ Plugin para otras carpetas :
 		  ]  
 	})
 
-**5. HtmlWebpackPlugin**
+**5. HtmlWebpackPlugin**  
 Genera dinámicamente un html dentro del bundle
 Forma básica : 
 	
@@ -231,8 +231,8 @@ Forma básica :
 
 Forma customizada :
 
-Este plugin acepta diferentes propiedades para personalizar el html generado.
-Podemos ver en la documentación las propiedades aceptadas :
+Este plugin acepta diferentes propiedades para personalizar el html generado.  
+Podemos ver en la documentación las propiedades aceptadas :  
 https://www.npmjs.com/package/html-webpack-plugin
 Ejemplo : 
 
@@ -246,13 +246,13 @@ Ejemplo :
 	    })
 	  ]
 
-- **Plantillas html** 
-	Podemos crear un template personalizado y utilizarlo para crear dinámicamente el html.
-	En este caso vamos a usar Handlebars
-	Pasos : 
-	1. Creamos un archivo "index.hbs" que contendrá la plantilla html que queremos
-	2. Incluimos en el HtmlWebpackPlugin las variables que vamos a utilizar y la propiedad template que hará referencia al archivo plantilla.
-		Ejemplo : 
+- **Plantillas html**   
+	Podemos crear un template personalizado y utilizarlo para crear dinámicamente el html.  
+	En este caso vamos a usar Handlebars.  
+	Pasos :   
+	1. Creamos un archivo "index.hbs" que contendrá la plantilla html que queremos  
+	2. Incluimos en el HtmlWebpackPlugin las variables que vamos a utilizar y la propiedad   template que hará referencia al archivo plantilla.  
+		Ejemplo :   
 		
 			new HtmlWebpackPlugin({       // Genera html dinámico  
 				  title : 'Pruebas Webpack',  
@@ -261,8 +261,8 @@ Ejemplo :
 				  description: 'Descripción de la web',  
 				  tipoValor: 'Control de valores'  
 			}),
-	3. Referenciamos las variables nuevas dentro de la plantilla usando "htmlWebpackPlugin.options.propiedad"
-		Ejemplo : 
+	3. Referenciamos las variables nuevas dentro de la plantilla usando "htmlWebpackPlugin.options.propiedad"  
+		Ejemplo :   
 		
 			<!DOCTYPE html>  
 			<html>  
@@ -276,7 +276,7 @@ Ejemplo :
 				</body>  
 			</html>
 
-	4. Incluimos el loader de handlebars para que webpack interprete el formato
+	4. Incluimos el loader de handlebars para que webpack interprete el formato  
 
 			{  
 		    test: /\.(hbs)$/,  
