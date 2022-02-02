@@ -2,13 +2,16 @@ const path = require('path');
 
 // PLUGINS
 const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry : './src/index.js',                            // Archivo de entrada para iniciar la compilación
     output: {                                            // Configuración bundle de salida
-        filename: 'bundle.js',                           // Nombre del archivo
+        filename: 'bundle.[contenthash].js',                           // Nombre del archivo
         path: path.resolve(__dirname, './dist'),         // Ruta de salida de la compilación (Debe ser absoluta, utilizamos path.resolve())
-        publicPath: 'dist/'                              // Indicamos ruta dinámica del server/cdn  https://server-name.com/
+        publicPath: ''                                  // Indicamos ruta dinámica del server/cdn  https://server-name.com/
     },
     mode: 'none',                                        // Modo de compilación "develop" || "production"
 
@@ -51,7 +54,9 @@ module.exports = {
             {
                 test: /\.(scss)$/,
                 use: [
-                    'style-loader', 'css-loader', 'sass-loader'
+                    MiniCssExtractPlugin.loader,
+                            // 'style-loader', Comentado para usar MiniCssLoader
+                    'css-loader', 'sass-loader'
                 ]
             },
             {
@@ -64,10 +69,34 @@ module.exports = {
                         plugins: [ '@babel/plugin-proposal-class-properties']
                     }
                 }
+            },
+            {
+                test: /\.(hbs)$/,
+                use: [
+                    'handlebars-loader'
+                ]
             }
         ]
     },
     plugins: [
-        new TerserPlugin()                 // Minificado
+        new TerserPlugin(),           // Minificado
+
+        new MiniCssExtractPlugin({   // Separa el css en archivo a parte
+            filename: 'styles.[contenthash].css'   // Archivo de salida en el bundle
+        }),
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: [
+                '**/*'       // Por defecto la carpeta output.path
+                // path.join(process.cwd(), 'build/**/*')   // Carpetas a parte de la principal
+            ]
+        }),
+
+        new HtmlWebpackPlugin({       // Genera html dinámico
+            title : 'Pruebas Webpack',
+            filename: 'admin.html',
+            template: './src/index.hbs',
+            description: 'Descripción de la web',
+            viewPort: 'width=device-width, initial-scale=1'
+        }),
     ]
 }
