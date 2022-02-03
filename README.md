@@ -346,6 +346,76 @@ Pasos:
 			"dev:server": "webpack serve --config webpack.development.config.js --hot",  
 		}
   #
+
+### MPA's
+Webpack también permite la creación de bundles separados para multiple page applications.  
+Configuración bundle :   
+1. La propiedad entry podemos tratarla como un objeto [name]/[valor] indicando los distintos ficheros de entrada: 
+		
+		"entry" :  {
+			'hello-world: "./src/hello-world.js",
+			'kiwi': './src/kiwi.js'
+		}
+
+También podemos utilizar una función que retorne ese objeto. (Este código sería lo equivalente a importar todos los archivos con sufijo page.js)
+
+	entry: 
+		glob.sync('./src/pages/**/*.page.js').reduce(function(obj, el){  
+		    obj[path.parse(el).name] = el;  
+			return obj
+		},{})
+
+2. Indicar en output.filename el nombre del bundle a crear. Como ya se ha comentado, webpack acepta un objeto [nombre]/[valor] para el entry. Esto no es fortuito. Puedes reutilizar dinámicamente el nombre de la entrada en otras partes del código. Por ejemplo el output, css etc. 
+	
+		output: {                                    
+		  filename: '[name].[contenthash].js',
+		  ...
+3. Generar html para cada page
+			
+		new HtmlWebpackPlugin({       // Genera html dinámico  
+			title : 'Pruebas Webpack' ,  
+			filename: '[name].html',  
+			chunks: ['hello-world'],       // Array de bundles a cargar (solo 1)
+			template: './src/page-template.hbs',  
+			description: 'Descripción de la web',  
+			viewPort: 'width=device-width, initial-scale=1',  
+			minify: false   // Minificamos o no el html  
+		}),
+
+	Si lo que queremos es asociar un bundle en específico a cada html utilizamos la propiedad chunk dentro del HtmlWebPackPlugin
+
+4. Dependencias comunes entre bundles:
+	Una librería común como puede ser "lodash" se puede compilar en un bundle independiente que será cargado por las páginas si y solo si lo necesitan. Con esto conseguimos que los bundle no tenga código duplicado y aligeramos el tamaño de los mismos.  
+	Para optimizar estas dependencias, incluimos este objeto dentro de la configuración a continuación del "mode" de la aplicación.  
+	
+		optimization: {  
+		    splitChunks: {  
+	        chunks: 'all' // Por defecto todas las dependencias comunes  
+		  }  
+		},
+
+***En el ejemplo de git, Webpack separa esa librería en otro bundle y la incluye como script solo en el kiwi.html que es el que lo va a utilizar. Hello-world carece de esa librería porque no la necesita***
+Por defecto esta optimización se realiza para toda aquella dependencia común que supere los 30Kbs de tamaño (Por eso funciona con lodash). Por ejemplo si importasemos React no funcionaría porque pesa mucho menos. Podemos cambiar esta configuración añadiendo minSize
+
+		optimization: {  
+		    splitChunks: {  
+	        chunks: 'all', // Por defecto todas las dependencias comunes 
+	        minSize: 3000
+		  }  
+		},
+
+Los valores aceptados son 3
+`all` : Optimiza modulos estáticos y dinámicos.  
+`async`: Optimiza solo los dinámicos. (Los que se cargan en funcion se necesiten) 
+ `initial`: Optimiza solos los estáticos. (Los que se cargan desde el inicio del app)
+#
+
+
+			
+			
+		
+		 
+		  
 	
 
 

@@ -5,9 +5,12 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry : './src/index.js',                           // Archivo de entrada para iniciar la compilación
+    entry : {
+        'hello-world': './src/hello-world.js',
+        'kiwi': './src/kiwi.js'
+    },                           // Archivo de entrada para iniciar la compilación
     output: {                                           // Configuración bundle de salida
-        filename: 'bundle.js',            // Nombre del archivo
+        filename: '[name].bundle.js',            // Nombre del archivo
         path: path.resolve(__dirname, './dist'),        // Ruta de salida de la compilación (Debe ser absoluta, utilizamos path.resolve())
         publicPath: ''                                  // Indicamos ruta dinámica del server/cdn  https://server-name.com/
     },
@@ -95,11 +98,23 @@ module.exports = {
         }),
 
         new HtmlWebpackPlugin({       // Genera html dinámico
-            title : 'Pruebas Webpack',
-            filename: 'admin.html',
-            template: './src/index.hbs',
-            description: 'Descripción de la web',
-            viewPort: 'width=device-width, initial-scale=1'
+            title : 'hello-world',
+            filename: 'hello-world.html',
+            chunks: ['hello-world'],
+            template: './src/page-template.hbs',
+            description: 'Descripción de la web Hello-world',
+            viewPort: 'width=device-width, initial-scale=1',
+            minify: false
+        }),
+
+        new HtmlWebpackPlugin({       // Genera html dinámico
+            title : 'kiwi',
+            filename: 'kiwi.html',
+            chunks: ['kiwi'],
+            template: './src/page-template.hbs',
+            description: 'Descripción de la web kiwi',
+            viewPort: 'width=device-width, initial-scale=1',
+            minify: false
         }),
     ]
 }
