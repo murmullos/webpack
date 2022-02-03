@@ -239,7 +239,7 @@ Ejemplo :
 	plugins: [
 		new HtmlWebpackPlugin({
 		      title: 'My App',  // Titulo de la app
-		      filename: 'assets/admin.html'  // Nombre del archivo y ruta
+		      filename: 'assets/index.html'  // Nombre del archivo y ruta
 		      meta : {         // Info para las tags meta
 			      description: 'datos de meta'
 		      }

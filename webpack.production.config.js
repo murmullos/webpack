@@ -10,7 +10,7 @@ module.exports = {
     output: {                                           // Configuración bundle de salida
         filename: 'bundle.[contenthash].js',            // Nombre del archivo
         path: path.resolve(__dirname, './dist'),        // Ruta de salida de la compilación (Debe ser absoluta, utilizamos path.resolve())
-        publicPath: ''                                  // Indicamos ruta dinámica del server/cdn  https://server-name.com/
+        publicPath: '/static/'                          // Indicamos ruta dinámica del server/cdn  https://server-name.com/
     },
     mode: 'production',                                 // Modo de compilación "develop" || "production"
 
@@ -90,7 +90,7 @@ module.exports = {
 
         new HtmlWebpackPlugin({       // Genera html dinámico
             title : 'Pruebas Webpack',
-            filename: 'admin.html',
+            filename: 'index.html',
             template: './src/index.hbs',
             description: 'Descripción de la web',
             viewPort: 'width=device-width, initial-scale=1'

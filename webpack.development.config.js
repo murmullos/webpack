@@ -19,7 +19,7 @@ module.exports = {
             directory:path.resolve(__dirname, './dist'),// Directorio al que apunta el server
         },
         devMiddleware: {                                // Indicamos la raiz del proyecto
-            index: 'admin.html',
+            index: 'index.html',
             writeToDisk: true                               // default(false) Genera el dist mientras se ejecuta
         }
     },
@@ -96,7 +96,7 @@ module.exports = {
 
         new HtmlWebpackPlugin({       // Genera html dinámico
             title : 'Pruebas Webpack',
-            filename: 'admin.html',
+            filename: 'index.html',
             template: './src/index.hbs',
             description: 'Descripción de la web',
             viewPort: 'width=device-width, initial-scale=1'
