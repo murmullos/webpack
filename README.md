@@ -404,10 +404,10 @@ Por defecto esta optimización se realiza para toda aquella dependencia común q
 		  }  
 		},
 
-Los valores aceptados son 3
-`all` : Optimiza modulos estáticos y dinámicos.  
-`async`: Optimiza solo los dinámicos. (Los que se cargan en funcion se necesiten) 
- `initial`: Optimiza solos los estáticos. (Los que se cargan desde el inicio del app)
+Los valores aceptados son 3:  
+`all` : Optimiza modulos estáticos y dinámicos.    
+`async`: Optimiza solo los dinámicos. (Los que se cargan en funcion se necesiten).   
+ `initial`: Optimiza solos los estáticos. (Los que se cargan desde el inicio del app).  
 #
 
 
