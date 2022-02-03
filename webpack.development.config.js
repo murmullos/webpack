@@ -1,11 +1,41 @@
 const path = require('path');
+const glob = require('glob');
 
 // PLUGINS
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
-    entry : {
+module.exports =() => {
+    let indexList = glob.sync('./src/*.js').reduce((obj, el) => {
+        obj[path.parse(el).name] = el
+        return obj
+    }, {});
+    let plugins =[
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: [
+                '**/*'       // Por defecto la carpeta output.path
+                // path.join(process.cwd(), 'build/**/*')   // Carpetas a parte de la principal
+            ]
+        }),
+    ]; 
+        (() => {
+        for (const prop in indexList) {
+            plugins.push(new HtmlWebpackPlugin({       // Genera html dinámico
+                title: prop,
+                filename: `${prop}.html`,
+                chunks: [prop],
+                template: './src/page-template.hbs',
+                description: `Descripción de la web ${prop}`,
+                meta: {
+                    viewport: 'width=device-width, initial-scale=1'
+                },
+                minify: false
+            })
+            )
+        }
+    })()
+return {
+    entry: {
         'hello-world': './src/hello-world.js',
         'kiwi': './src/kiwi.js'
     },                           // Archivo de entrada para iniciar la compilación
@@ -14,12 +44,12 @@ module.exports = {
         path: path.resolve(__dirname, './dist'),        // Ruta de salida de la compilación (Debe ser absoluta, utilizamos path.resolve())
         publicPath: ''                                  // Indicamos ruta dinámica del server/cdn  https://server-name.com/
     },
-    mode:'development',                                 // Modo de compilación "develop" || "production"
+    mode: 'development',                                 // Modo de compilación "develop" || "production"
 
     devServer: {
         port: 9000,                                     // Puerto a usar
         static: {
-            directory:path.resolve(__dirname, './dist'),// Directorio al que apunta el server
+            directory: path.resolve(__dirname, './dist'),// Directorio al que apunta el server
         },
         devMiddleware: {                                // Indicamos la raiz del proyecto
             index: 'admin.html',
@@ -77,7 +107,7 @@ module.exports = {
                     loader: 'babel-loader',
                     options: {
                         presets: ['@babel/env'],
-                        plugins: [ '@babel/plugin-proposal-class-properties']
+                        plugins: ['@babel/plugin-proposal-class-properties']
                     }
                 }
             },
@@ -89,32 +119,6 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new CleanWebpackPlugin({
-            cleanOnceBeforeBuildPatterns: [
-                '**/*'       // Por defecto la carpeta output.path
-                // path.join(process.cwd(), 'build/**/*')   // Carpetas a parte de la principal
-            ]
-        }),
-
-        new HtmlWebpackPlugin({       // Genera html dinámico
-            title : 'hello-world',
-            filename: 'hello-world.html',
-            chunks: ['hello-world'],
-            template: './src/page-template.hbs',
-            description: 'Descripción de la web Hello-world',
-            viewPort: 'width=device-width, initial-scale=1',
-            minify: false
-        }),
-
-        new HtmlWebpackPlugin({       // Genera html dinámico
-            title : 'kiwi',
-            filename: 'kiwi.html',
-            chunks: ['kiwi'],
-            template: './src/page-template.hbs',
-            description: 'Descripción de la web kiwi',
-            viewPort: 'width=device-width, initial-scale=1',
-            minify: false
-        }),
-    ]
+    plugins
+}
 }
