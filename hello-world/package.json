@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack --config webpack.development.config.js",
+    "dev": "../node_modules/.bin/webpack --config webpack.development.config.js",
     "dev:server": "webpack serve --config webpack.development.config.js --hot",
-    "build": "webpack --config webpack.production.config.js"
+    "build": "webpack --config webpack.production.config.js",
+    "start": "node src/server.js"
   },
   "repository": {
     "type": "git",
@@ -39,6 +40,8 @@
     "webpack-dev-server": "^4.7.4"
   },
   "dependencies": {
+    "express": "^4.17.2",
+    "fs": "^0.0.1-security",
     "lodash": "^4.17.21"
   }
 }
