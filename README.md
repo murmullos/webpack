@@ -8,7 +8,7 @@ Webpack : Se encarga de generar un bundle con toda nuestra aplicación
 La opción "--save-dev" refleja la dev-dependency en el package.json
 # 
 ***Para enlazar los archivos entre si, primero hay que exportarlos como
-modulo y despues importarlo en el fichero padre o el que lo vaya a usar.***
+módulo y despues importarlo en el fichero padre o el que lo vaya a usar.***
 ***Ejemplo:*** 
 
 En "hello-world.js" 
@@ -134,7 +134,7 @@ También modificar el propio bundle en su compilación (Ejemplo : minificar)
 
 ***IMPORTANTE : La mayoría de plugins son una instancia de una librería por lo que deben importarse con require('name')***
 
-Deben estar en el array plugins dentro del modulo de webpack plugins: [...new plugin]
+Deben estar en el array plugins dentro del módulo de webpack plugins: [...new plugin]
 
 **Plugins usados :**
 
