@@ -7,11 +7,11 @@ const { ModuleFederationPlugin } = require('webpack').container;
 
 
 module.exports = {
-    entry :'./src/hello-world.js',
+    entry :'./src/dashboard.js',
     output: {                                           // Configuración bundle de salida
-        filename: 'hello-world.bundle.js',            // Nombre del archivo
+        filename: 'dashboard.bundle.js',            // Nombre del archivo
         path: path.resolve(__dirname, './dist'),        // Ruta de salida de la compilación (Debe ser absoluta, utilizamos path.resolve())
-        publicPath: 'http://localhost:9001/'                                  // Indicamos ruta dinámica del server/cdn  https://server-name.com/
+        publicPath: 'http://localhost:9000/'                                  // Indicamos ruta dinámica del server/cdn  https://server-name.com/
     },
     mode:'development',                                 // Modo de compilación "develop" || "production"
 
@@ -21,37 +21,32 @@ module.exports = {
             directory:path.resolve(__dirname, './dist'),// Directorio al que apunta el server
         },
         devMiddleware: {                                // Indicamos la raiz del proyecto
-            index: 'hello-world.html',
-            writeToDisk: true                               // default(false) Genera el dist mientras se ejecuta
+            index: 'dashboard.html',
+            writeToDisk: true,                               // default(false) Genera el dist mientras se ejecuta
+        },
+        historyApiFallback: {
+            index: 'dashboard.html'
         }
     },
 
     module: {
         rules: [
             {
-                test: /\.(scss)$/,
-                use: [
-                    'style-loader',
-                    'css-loader', 'sass-loader'
-                ]
-            },
-            {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/env'],
-                        plugins: [ '@babel/plugin-proposal-class-properties']
+                        presets: ['@babel/env']
                     }
                 }
             },
             {
-                test: /\.(hbs)$/,
+                test: /\.(scss)$/,
                 use: [
-                    'handlebars-loader'
+                     'style-loader', 'css-loader', 'sass-loader'
                 ]
-            }
+            },
         ]
     },
     plugins: [
@@ -63,19 +58,15 @@ module.exports = {
         }),
 
         new HtmlWebpackPlugin({       // Genera html dinámico
-            title : 'hello-world',
-            filename: 'hello-world.html',
-            template: './src/page-template.hbs',
-            description: 'Descripción de la web Hello-world',
-            viewPort: 'width=device-width, initial-scale=1',
+            title : 'Dashboard',
+            filename: 'dashboard.html',
             minify: false
         }),
         new ModuleFederationPlugin({
-            name : 'HelloWorldApp',  // Nombre externo que tendrá la app
-            filename: 'remoteEntry.js',  // Convención del nombre del archivo a compartir
-            exposes: {                // Exponemos los módulos que queremos compartir de esta app
-                './HelloWorldButton': './src/components/hello-world-button/hello-world-button.js',
-                './HelloWorldPage': './src/components/hello-world-page/hello-world-page.js'
+            name : 'DashboardApp',  // Nombre externo que tendrá la app
+            remotes: {                // Exponemos los módulos que queremos compartir de esta app
+                'HelloWorldApp': 'HelloWorldApp@http://localhost:9001/remoteEntry.js',
+                'KiwiApp': 'KiwiApp@http://localhost:9002/remoteEntry.js',
             }
         })
     ]

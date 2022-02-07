@@ -75,8 +75,12 @@ module.exports = {
         }),
         new ModuleFederationPlugin({
             name : 'KiwiApp',  // Nombre externo que tendrá la app
-            remotes: {                // Exponemos los módulos que queremos compartir de esta app
-                'HelloWorldApp': 'HelloWorldApp@http://localhost:9001/remoteEntry.js'
+            filename: 'remoteEntry.js',
+            exposes: {                // Exponemos los módulos que queremos compartir de esta app
+                './KiwiPage': './src/components/kiwi-page/kiwi-page.js'
+            },
+            remotes : {
+                ImageCaptionApp: 'ImageCaptionApp@http://localhost:9003/remoteEntry.js'
             }
         })
     ]

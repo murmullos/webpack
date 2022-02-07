@@ -7,11 +7,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { ModuleFederationPlugin } = require('webpack').container;
 
 module.exports = {
-    entry :'./src/hello-world.js',
+    entry :'./src/dashboard.js',
     output: {                                           // Configuración bundle de salida
-        filename: 'hello-world.[contenthash].js',            // Nombre del archivo
+        filename: 'dashboard.[contenthash].js',            // Nombre del archivo
         path: path.resolve(__dirname, './dist'),        // Ruta de salida de la compilación (Debe ser absoluta, utilizamos path.resolve())
-        publicPath: 'http://localhost:9001/'                                  // Indicamos ruta dinámica del server/cdn  https://server-name.com/
+        publicPath: 'http://localhost:9000/'                                  // Indicamos ruta dinámica del server/cdn  https://server-name.com/
     },
     mode: 'production',                                 // Modo de compilación "develop" || "production"
     optimization: {
@@ -22,14 +22,6 @@ module.exports = {
 
     module: {
         rules: [
-            {
-                test: /\.(scss)$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                            // 'style-loader', Comentado para usar MiniCssLoader
-                    'css-loader', 'sass-loader'
-                ]
-            },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
@@ -46,13 +38,18 @@ module.exports = {
                 use: [
                     'handlebars-loader'
                 ]
-            }
+            },
+            {
+                test: /\.(scss)$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    // 'style-loader', Comentado para usar MiniCssLoader
+                    'css-loader', 'sass-loader'
+                ]
+            },
         ]
     },
     plugins: [
-        new MiniCssExtractPlugin({   // Separa el css en archivo a parte
-            filename: 'hello-world.[contenthash].css'   // Archivo de salida en el bundle
-        }),
         new CleanWebpackPlugin({
             cleanOnceBeforeBuildPatterns: [
                 '**/*'       // Por defecto la carpeta output.path
@@ -60,21 +57,20 @@ module.exports = {
             ]
         }),
 
-        new HtmlWebpackPlugin({       // Genera html dinámico
-            title : 'hello-world',
-            filename: 'hello-world.html',
-            template: './src/page-template.hbs',
-            description: 'Descripción de la web Hello-world',
-            viewPort: 'width=device-width, initial-scale=1',
-           // minify: false    Default true en production
+        new MiniCssExtractPlugin({   // Separa el css en archivo a parte
+            filename: 'styles.[contenthash].css'   // Archivo de salida en el bundle
         }),
 
+        new HtmlWebpackPlugin({       // Genera html dinámico
+            title : 'Dashboard',
+            filename: 'dashboard.html',
+            minify: false
+        }),
         new ModuleFederationPlugin({
-            name : 'HelloWorldApp',  // Nombre externo que tendrá la app
-            filename: 'remoteEntry.js',  // Convención del nombre del archivo a compartir
-            exposes: {                // Exponemos los módulos que queremos compartir de esta app
-                './HelloWorldButton': './src/components/hello-world-button/hello-world-button.js',
-                './HelloWorldPage': './src/components/hello-world-page/hello-world-page.js'
+            name : 'DashboardApp',  // Nombre externo que tendrá la app
+            remotes: {                // Exponemos los módulos que queremos compartir de esta app
+                'HelloWorldApp': 'HelloWorldApp@http://localhost:9001/remoteEntry.js',
+                'KiwiApp': 'KiwiApp@http://localhost:9002/remoteEntry.js',
             }
         })
     ]

@@ -1,28 +1,22 @@
 const path = require('path');
 
 // PLUGINS
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { ModuleFederationPlugin } = require('webpack').container;
 
-
 module.exports = {
-    entry :'./src/hello-world.js',
+    entry :'./src/image-caption.js',
     output: {                                           // Configuración bundle de salida
-        filename: 'hello-world.bundle.js',            // Nombre del archivo
+        filename: '[name].[contenthash].js',            // Nombre del archivo
         path: path.resolve(__dirname, './dist'),        // Ruta de salida de la compilación (Debe ser absoluta, utilizamos path.resolve())
-        publicPath: 'http://localhost:9001/'                                  // Indicamos ruta dinámica del server/cdn  https://server-name.com/
+        publicPath: 'http://localhost:9003/'                                  // Indicamos ruta dinámica del server/cdn  https://server-name.com/
     },
-    mode:'development',                                 // Modo de compilación "develop" || "production"
-
-    devServer: {
-        port: 9001,                                     // Puerto a usar
-        static: {
-            directory:path.resolve(__dirname, './dist'),// Directorio al que apunta el server
-        },
-        devMiddleware: {                                // Indicamos la raiz del proyecto
-            index: 'hello-world.html',
-            writeToDisk: true                               // default(false) Genera el dist mientras se ejecuta
+    mode: 'production',                                 // Modo de compilación "develop" || "production"
+    optimization: {
+        splitChunks: {
+            chunks: 'all'                               // Por defecto todas las dependencias comunes
         }
     },
 
@@ -31,7 +25,8 @@ module.exports = {
             {
                 test: /\.(scss)$/,
                 use: [
-                    'style-loader',
+                    MiniCssExtractPlugin.loader,
+                            // 'style-loader', Comentado para usar MiniCssLoader
                     'css-loader', 'sass-loader'
                 ]
             },
@@ -41,8 +36,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/env'],
-                        plugins: [ '@babel/plugin-proposal-class-properties']
+                        presets: ['@babel/env']
                     }
                 }
             },
@@ -55,6 +49,9 @@ module.exports = {
         ]
     },
     plugins: [
+        new MiniCssExtractPlugin({   // Separa el css en archivo a parte
+            filename: '[name].[contenthash].css'   // Archivo de salida en el bundle
+        }),
         new CleanWebpackPlugin({
             cleanOnceBeforeBuildPatterns: [
                 '**/*'       // Por defecto la carpeta output.path
@@ -63,19 +60,19 @@ module.exports = {
         }),
 
         new HtmlWebpackPlugin({       // Genera html dinámico
-            title : 'hello-world',
-            filename: 'hello-world.html',
+            title : 'image-caption',
+            filename: 'image-caption.html',
             template: './src/page-template.hbs',
-            description: 'Descripción de la web Hello-world',
+            description: 'Descripción de la web Image-caption',
             viewPort: 'width=device-width, initial-scale=1',
-            minify: false
+           // minify: false    Default true en production
         }),
+
         new ModuleFederationPlugin({
-            name : 'HelloWorldApp',  // Nombre externo que tendrá la app
+            name : 'ImageCaptionApp',  // Nombre externo que tendrá la app
             filename: 'remoteEntry.js',  // Convención del nombre del archivo a compartir
             exposes: {                // Exponemos los módulos que queremos compartir de esta app
-                './HelloWorldButton': './src/components/hello-world-button/hello-world-button.js',
-                './HelloWorldPage': './src/components/hello-world-page/hello-world-page.js'
+                './ImageCaption': './src/components/image-caption/image-caption.js',
             }
         })
     ]
